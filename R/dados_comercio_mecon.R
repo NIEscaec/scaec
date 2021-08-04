@@ -44,7 +44,7 @@ dados_intraindustria <- comerciobr::sh4_df %>%
 # Índice HH - índice de concentração de comércio
 
 dados_hh <- comerciobr::sh4_df %>%
-    group_by(co_ano, co_mes, no_pais) %>%
+    group_by(co_ano, no_pais) %>%
     summarise(value = sum(value)) %>% 
     group_by(co_ano) %>%
     mutate(total_ano = sum(value)) %>% 
@@ -54,4 +54,8 @@ dados_hh <- comerciobr::sh4_df %>%
     group_by(co_ano) %>%
     summarise(HH = sum(HH))
 
+#H abaixo de 0.01 - competitivo
+#H abaixo de 0.15 - não concentrada
+#H de 0.15 a 0.25 - concentração moderada
+#H acima de 0.25 - alta concentração
   
