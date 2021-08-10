@@ -268,20 +268,112 @@ dados_hh <- comerciobr::sh4_df %>%
 
 ```{r, echo=FALSE, message=FALSE}
 dados_comercio %>% 
+    mutate(value = value/1000000) %>% 
     pivot_wider(names_from = trade_flow, values_from = value) %>% 
     arrange(desc(co_ano)) %>% 
     rename(Ano = co_ano) %>% 
-    knitr::kable(align = "ccccc",  caption = "Janeiro a Junho", digits = 4, format.args = list(big.mark = ".",
-  scientific = FALSE))
+    mutate(Ano = as.character(Ano)) %>% 
+    head(4) %>% 
+    knitr::kable(align = "ccccc",  caption = "Janeiro a Junho, em milhões de dólares", digits = 0,
+                 format.args = list(big.mark = ".", decimal.mark = ",",
+                                    scientific = FALSE))
 ```
 
 ## Brasil-China
 
+```{r, echo=FALSE, message=FALSE}
+comerciobr::sh4_df %>% 
+  filter(co_mes <= ultimo_mes & co_pais == 160) %>% 
+  group_by(path, co_ano) %>% 
+  summarise(value = sum(value)) %>% 
+  pivot_wider(names_from = path, values_from = value) %>% 
+  mutate(Corrente = EXP + IMP, 
+         Saldo = EXP - IMP) %>%
+  rename(Exportações = EXP,
+         Importações = IMP) %>% 
+  pivot_longer(cols = Exportações:Saldo, names_to = "trade_flow", values_to = "value") %>% 
+  mutate(value = value/1000000) %>% 
+  pivot_wider(names_from = trade_flow, values_from = value) %>% 
+  arrange(desc(co_ano)) %>% 
+  rename(Ano = co_ano) %>% 
+  mutate(Ano = as.character(Ano)) %>% 
+  head(4) %>% 
+  knitr::kable(align = "ccccc",  caption = "Janeiro a Junho, em milhões de dólares", digits = 0,
+               format.args = list(big.mark = ".", decimal.mark = ",",
+                                  scientific = FALSE))
+```
+
 ## Brasil-EUA
 
-## Brasil-MERCOSUL
+```{r, echo=FALSE, message=FALSE}
+comerciobr::sh4_df %>% 
+  filter(co_mes <= ultimo_mes & co_pais == 249) %>% 
+  group_by(path, co_ano) %>% 
+  summarise(value = sum(value)) %>% 
+  pivot_wider(names_from = path, values_from = value) %>% 
+  mutate(Corrente = EXP + IMP, 
+         Saldo = EXP - IMP) %>%
+  rename(Exportações = EXP,
+         Importações = IMP) %>% 
+  pivot_longer(cols = Exportações:Saldo, names_to = "trade_flow", values_to = "value") %>% 
+  mutate(value = value/1000000) %>% 
+  pivot_wider(names_from = trade_flow, values_from = value) %>% 
+  arrange(desc(co_ano)) %>% 
+  rename(Ano = co_ano) %>% 
+  mutate(Ano = as.character(Ano)) %>% 
+  head(4) %>% 
+  knitr::kable(align = "ccccc",  caption = "Janeiro a Junho, em milhões de dólares", digits = 0,
+               format.args = list(big.mark = ".", decimal.mark = ",",
+                                  scientific = FALSE))
+```
 
-## Brasil-União Europeia
+## Brasil-MERCOSUL(4)
+
+```{r, echo=FALSE, message=FALSE}
+comerciobr::sh4_df %>% 
+  filter(co_mes <= ultimo_mes & co_pais %in% c(063, 845, 586)) %>% 
+  group_by(path, co_ano) %>% 
+  summarise(value = sum(value)) %>% 
+  pivot_wider(names_from = path, values_from = value) %>% 
+  mutate(Corrente = EXP + IMP, 
+         Saldo = EXP - IMP) %>%
+  rename(Exportações = EXP,
+         Importações = IMP) %>% 
+  pivot_longer(cols = Exportações:Saldo, names_to = "trade_flow", values_to = "value") %>% 
+  mutate(value = value/1000000) %>% 
+  pivot_wider(names_from = trade_flow, values_from = value) %>% 
+  arrange(desc(co_ano)) %>% 
+  rename(Ano = co_ano) %>% 
+  mutate(Ano = as.character(Ano)) %>% 
+  head(4) %>% 
+  knitr::kable(align = "ccccc",  caption = "Janeiro a Junho, em milhões de dólares", digits = 0,
+               format.args = list(big.mark = ".", decimal.mark = ",",
+                                  scientific = FALSE))
+```
+
+## Brasil-União Europeia(27)
+
+```{r, echo=FALSE, message=FALSE}
+comerciobr::sh4_df %>% 
+  filter(co_mes <= ultimo_mes & co_pais %in% c(023, 072, 087, 111, 195, 163, 232, 247, 246, 245, 251, 271, 275, 301, 355, 375, 386, 427, 442, 445, 467, 573, 603, 607, 791, 670, 764)) %>% 
+  group_by(path, co_ano) %>% 
+  summarise(value = sum(value)) %>% 
+  pivot_wider(names_from = path, values_from = value) %>% 
+  mutate(Corrente = EXP + IMP, 
+         Saldo = EXP - IMP) %>%
+  rename(Exportações = EXP,
+         Importações = IMP) %>% 
+  pivot_longer(cols = Exportações:Saldo, names_to = "trade_flow", values_to = "value") %>% 
+  mutate(value = value/1000000) %>% 
+  pivot_wider(names_from = trade_flow, values_from = value) %>% 
+  arrange(desc(co_ano)) %>% 
+  rename(Ano = co_ano) %>% 
+  mutate(Ano = as.character(Ano)) %>% 
+  head(4) %>% 
+  knitr::kable(align = "ccccc",  caption = "Janeiro a Junho, em milhões de dólares", digits = 0,
+               format.args = list(big.mark = ".", decimal.mark = ",",
+                                  scientific = FALSE))
+```
 
 ## Índice Herfindahl–Hirschman (HH) -- Concentração comercial
 *Obs: 1 = monopólio / 0 = concorrência perfeita*
@@ -293,4 +385,4 @@ dados_comercio %>%
 *Obs: índices maiores indicam maior atividade*
 Índice HH `r dados_intraindustria$co_ano [1]` = `r format(dados_intraindustria$indiceGL [1], digits=3, nsmall=4)`  
 Índice HH `r dados_intraindustria$co_ano [2]` = `r format(dados_intraindustria$indiceGL [2], digits=3, nsmall=4)`  
-Índice HH `r dados_intraindustria$co_ano [3]` = `r format(dados_intraindustria$indiceGL [3], digits=3, nsmall=4)`  
+Índice HH `r dados_intraindustria$co_ano [3]` = `r format(dados_intraindustria$indiceGL [3], digits=3, nsmall=4)`
